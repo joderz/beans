@@ -14,7 +14,7 @@
                     <div class="card-header ">
                         <div class="row">
                             <div class="col-sm-6 text-left">
-                                <h5 class="card-category">I Think We Will Add Drop Down Boxes Here</h5>
+                                <h5 class="card-category">Lets Add Drop Down Boxes</h5>
                                 <h2 class="card-title">IDK HOW</h2>
                             </div>
                             <div class="col-sm-6">
@@ -101,20 +101,22 @@
                   </tr>
                 </thead>
                 <tbody>
+                    {% for result in results %}
                   <tr>
                     <td>
-                      Dakota Rice
+                        {{ result.reservation_id }}
                     </td>
                     <td>
-                      Niger
+                        {{ result.customer_email }}
                     </td>
                     <td>
-                      Oud-Turnhout
+                        {{ result.host_email }}
                     </td>
                     <td class="text-center">
-                      $36,738
+                        {{ result.duration }}
                     </td>
                   </tr>
+                  {% endfor %}
                   <tr>
                     <td>
                       Minerva Hooper

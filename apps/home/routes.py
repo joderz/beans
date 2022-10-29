@@ -8,12 +8,17 @@ from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 
+import sys 
+sys.path.append(r"C:\Users\Jodi\Documents\GitHub\beans")
+from models import Modelz
+
+Modelz = Modelz()
 
 @blueprint.route('/index')
 @login_required
 def index():
-
-    return render_template('home/index.html', segment='index')
+    user = Modelz.reservation_list()
+    return render_template('home/index.html', segment='index',results = user)
 
 
 @blueprint.route('/<template>')
