@@ -1,4 +1,3 @@
-
 DROP TABLE if exists reservation;
 DROP TABLE if exists customers CASCADE;
 DROP TABLE if exists property CASCADE;
