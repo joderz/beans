@@ -14,7 +14,7 @@ from models import Modelz
 
 Modelz = Modelz()
 
-@blueprint.route('/index', methods=['GET','POST'])
+@blueprint.route('/overview', methods=['GET','POST'])
 @login_required
 def index():
     # drop down data
@@ -32,33 +32,79 @@ def index():
     #query results
     try: 
         list(request.form.values())[0] == "Membership List"
-        user = Modelz.Member()
     except:
-        user = Modelz.reservation_list()
+        user = {}
         return render_template('home/index.html', segment='index',results = user, date_1=date_1,
                             data2=data2, data3=data3, data4=data4,data5=data5,data6=data6, data7=data7, data8=data8,data9=data9)
+    else:
+        output = []
+        output = list(request.form.values())
+        for i in range(len(output)):
+            if output[i] == '>=500':
+                output[i] = "500"
+            elif output[i] == '>=1000':
+                output[i] = '1000'
+            elif output[i] == '4 or more':
+                output[i] = '4'
+            elif output[i] == '2 or more':
+                output[i] = '2'
+            elif output[i] == 'all':
+                output[i] = '0'
+
+        user = Modelz.overview({"month": output[0], "year":output[1],"price": output[2], "duration": output[3], "accommodates":output[4],"beds": output[5], "bathrooms": output[6], "rating":output[7]})
+
+        return render_template('home/index.html', segment='index',results = user, date_1 = date_1,
+                                data2=data2, data3=data3, data4=data4,data5=data5,data6=data6, data7=data7, data8=data8,data9=data9)
+
+@blueprint.route('/membership', methods=['GET','POST'])
+@login_required
+def membership():
+    # drop down data
+    data2=[{'option2': 'Membership Level'},{'option2': 'Diamond'}, {'option2': 'Gold'},{'option2': 'Silver'}]
+    #query results
+    try: 
+        list(request.form.values())[0] == "Membership List"
+    except:
+        results = {}
+        return render_template('home/membership.html', segment='index',results = results,
+                            data2=data2)
+    else: 
+        output = list(request.form.values())
+        if output[0] == "Diamond":
+            results = Modelz.MemberDiamond()
+        elif output[0] == "Gold":
+            results = Modelz.MemberGold()
+        elif output[0] == "Silver":
+            results = Modelz.MemberSilver()
+        return render_template('home/membership.html', segment='index',results = results,
+                            data2=data2)
+
+@blueprint.route('/aggregate', methods=['GET','POST'])
+@login_required
+def aggregate():
+    # drop down data
+    data2=[{'option2': 'Group By'},{'option2': 'Year'}, {'option2': 'Month'},{'option2': 'Day'},{'option2': 'Weekend'}]
+    #query results
+    try: 
+        list(request.form.values())[0] == "Membership List"
+    except:
+        results = {}
+        return render_template('home/aggregate.html', segment='index',results = results,
+                            data2=data2)
+    else: 
+        output = list(request.form.values())
+        if output[0] == "Year":
+            results = Modelz.date_1()
+        elif output[0] == "Month":
+            results = Modelz.date_2()
+        elif output[0] == "Day":
+            results = Modelz.date_3()
+        elif output[0] == "Weekend":
+            results = Modelz.date_4()
+
+        return render_template('home/aggregate.html', segment='index',results = results,
+                            data2=data2)
     
-    output = []
-    output = list(request.form.values())
-    for i in range(len(output)):
-        if output[i] == '>=500':
-            output[i] = "500"
-        elif output[i] == '>=1000':
-            output[i] = '1000'
-        elif output[i] == '4 or more':
-            output[i] = '4'
-        elif output[i] == '2 or more':
-            output[i] = '2'
-        elif output[i] == 'all':
-            output[i] = '0'
-
-    user = Modelz.overview({"month": output[0], "year":output[1],"price": output[2], "duration": output[3], "accommodates":output[4],"beds": output[5], "bathrooms": output[6], "rating":output[7]})
-
-    return render_template('home/index.html', segment='index',results = user, date_1 = date_1,
-                            data2=data2, data3=data3, data4=data4,data5=data5,data6=data6, data7=data7, data8=data8,data9=data9)
-
-
-
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):

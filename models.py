@@ -39,7 +39,7 @@ class Modelz:
                                     group by d.year
                                     """)
 
-    def date_2(self):
+    def date_3(self):
         return self.executeRawSql("""select d.day_of_week, count(r.reservation_id) as no_of_reservation, sum(r.duration*r.price_per_day) as total_spending
                                     from reservation r, date d
                                     where r.date_id=d.id
@@ -47,22 +47,47 @@ class Modelz:
                                     order by sum(r.duration*r.price_per_day) desc;
                                     """)
 
-    def date_3(self):
-        return self.executeRawSql("""Months of less than 80 reservations 
+    def date_2(self):
+        return self.executeRawSql("""
                                     select d.month, count(r.reservation_id) as no_of_reservation, sum(r.duration*r.price_per_day) as total_spending
                                     from reservation r, date d
                                     where r.date_id=d.id
                                     group by d.month
                                     having count(*)<80;
                                     """)
-    def Member(self):
+    def date_4(self):
+        return self.executeRawSql("""
+                                    select d.is_weekend, count(r.reservation_id) as no_of_reservation, sum(r.duration*r.price_per_day) as total_spending
+                                    from reservation r, date d
+                                    where r.date_id=d.id
+                                    group by d.is_weekend
+                                    order by count(r.reservation_id) desc;
+
+                                    """)
+    def MemberSilver(self):
         return self.executeRawSql("""SELECT DISTINCT c.customer_name, c.email, c.phone, c.gender
                                     FROM customers c
                                     WHERE (c.total_spending>=2000 and c.total_spending<3500)
                                     OR (c.no_of_booking>=15 and c.no_of_booking<25)
                                     AND (c.account_created<=2017);
-
                                     """)
+    
+    def MemberGold(self):
+        return self.executeRawSql("""SELECT DISTINCT c.customer_name, c.email, c.phone, c.gender
+                                    FROM customers c
+                                    WHERE (c.total_spending>=3500 and c.total_spending<5000)
+                                    OR (c.no_of_booking>=25 and c.no_of_booking<35)
+                                    AND (c.account_created<=2017);
+                                    """)
+    
+    def MemberDiamond(self):
+        return self.executeRawSql("""  SELECT DISTINCT c.customer_name, c.email, c.phone, c.gender
+                                    FROM customers c
+                                    WHERE c.total_spending>=5000
+                                    OR c.no_of_booking>=35
+                                    AND c.account_created<=2017;
+                                    """)
+
 
 
     def overview(self,value):

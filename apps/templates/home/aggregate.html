@@ -13,7 +13,7 @@
                 <div class="card card-chart">
                     <div class="card-header ">
                         <div class="row">
-                            <h2 class="card-title">  Overview Data: </h2>
+                            <h2 class="card-title">  Aggregate Data (by date): </h2>
                             <br>
                             <div class="col-sm">
                                 <form action="" method="post">
@@ -22,43 +22,6 @@
                                       <option value="{{ o.option2 }}">{{ o.option2 }}</option>
                                       {% endfor %}
                                     </select>
-                                <select name="comp_select3" class="Input">
-                                      {% for o in data3 %}
-                                      <option value="{{ o.option3 }}">{{ o.option3 }}</option>
-                                      {% endfor %}
-                                    </select>
-                                <select name="comp_select4" class="Input">
-                                      {% for o in data4 %}
-                                      <option value="{{ o.option4 }}">{{ o.option4 }}</option>
-                                      {% endfor %}
-                                </select>
-                                <select name="comp_select5" class="Input">
-                                    {% for o in data5 %}
-                                    <option value="{{ o.option5 }}">{{ o.option5 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select6" class="Input">
-                                    {% for o in data6 %}
-                                    <option value="{{ o.option6 }}">{{ o.option6 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select7" class="Input">
-                                    {% for o in data7 %}
-                                    <option value="{{ o.option7 }}">{{ o.option7 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select8" class="Input">
-                                    {% for o in data8 %}
-                                    <option value="{{ o.option8 }}">{{ o.option8 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select9" class="Input">
-                                    {% for o in data9 %}
-                                    <option value="{{ o.option9 }}">{{ o.option9 }}</option>
-                                    {% endfor %}
-                                  </select>
-   
-                                    
                                     <br></br>
                                 <button type="submit" class="pred-btn"> Submit </button>
                                 </form>
@@ -75,7 +38,7 @@
         <div class="card ">
           <div class="card-header">
             <h4 class="card-title">  Result Table </h4>
-            <p class="category"> Provides Overview Data of Entire Dataset (filtered) </p>
+            <p class="category"> Results show data aggregated by selected timeframe </p>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -107,8 +70,6 @@
       </div>
     </div>
   </div>
-
-
 
 {% endblock content %}
 
