@@ -1,80 +1,80 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} AIRBNB {% endblock %} 
+{% block title %} AIRBNB {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
-    <div class="content">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-chart">
-                    <div class="card-header ">
-                        <div class="row">
-                            <h2 class="card-title">  Overview Data: </h2>
-                            <br>
-                            <div class="col-sm">
-                                <form action="" method="post">
-                                <select name="comp_select2" class="Input">
-                                      {% for o in data2 %}
-                                      <option value="{{ o.option2 }}">{{ o.option2 }}</option>
-                                      {% endfor %}
-                                    </select>
-                                <select name="comp_select3" class="Input">
-                                      {% for o in data3 %}
-                                      <option value="{{ o.option3 }}">{{ o.option3 }}</option>
-                                      {% endfor %}
-                                    </select>
-                                <select name="comp_select4" class="Input">
-                                      {% for o in data4 %}
-                                      <option value="{{ o.option4 }}">{{ o.option4 }}</option>
-                                      {% endfor %}
-                                </select>
-                                <select name="comp_select5" class="Input">
-                                    {% for o in data5 %}
-                                    <option value="{{ o.option5 }}">{{ o.option5 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select6" class="Input">
-                                    {% for o in data6 %}
-                                    <option value="{{ o.option6 }}">{{ o.option6 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select7" class="Input">
-                                    {% for o in data7 %}
-                                    <option value="{{ o.option7 }}">{{ o.option7 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select8" class="Input">
-                                    {% for o in data8 %}
-                                    <option value="{{ o.option8 }}">{{ o.option8 }}</option>
-                                    {% endfor %}
-                                  </select>
-                                <select name="comp_select9" class="Input">
-                                    {% for o in data9 %}
-                                    <option value="{{ o.option9 }}">{{ o.option9 }}</option>
-                                    {% endfor %}
-                                  </select>
-   
-                                    
-                                    <br></br>
-                                <button type="submit" class="pred-btn"> Submit </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-chart">
+        <div class="card-header ">
+          <div class="row">
+            <h2 class="card-title"> Overview Data: </h2>
+            <br>
+            <div class="col-sm">
+              <form action="" method="post">
+                <select name="comp_select2" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l2) %}
+                  <option value="{{ i }}">{{ data2[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select3" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l3) %}
+                  <option value="{{ i }}">{{ data3[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select4" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l4) %}
+                  <option value="{{ i }}">{{ data4[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select5" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l5) %}
+                  <option value="{{ i }}">{{ data5[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select6" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l6) %}
+                  <option value="{{ i }}">{{ data6[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select7" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l7) %}
+                  <option value="{{ i }}">{{ data7[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select8" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l8) %}
+                  <option value="{{ i }}">{{ data8[i] }}</option>
+                  {% endfor %}
+                </select>
+                <select name="comp_select9" class="Input" onchange="enableSubmit()">
+                  {% for i in range(0, l9) %}
+                  <option value="{{ i }}">{{ data9[i] }}</option>
+                  {% endfor %}
+                </select>
+
+
+                <br></br>
+                <button name="submitBtn" type="submit" class="pred-btn" disabled="true"> Submit </button>
+              </form>
             </div>
+          </div>
         </div>
-        
+      </div>
+    </div>
+  </div>
+
   <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card ">
           <div class="card-header">
-            <h4 class="card-title">  Result Table </h4>
+            <h4 class="card-title"> Result Table </h4>
             <p class="category"> Provides Overview Data of Entire Dataset (filtered) </p>
           </div>
           <div class="card-body">
@@ -84,17 +84,17 @@
                   <tr>
                     {% for colname in results.keys() %}
                     <th>
-                        {{ colname }}
+                      {{ colname }}
                     </th>
                     {% endfor %}
                   </tr>
                 </thead>
                 <tbody>
-                    {% for result in results %}
+                  {% for result in results %}
                   <tr>
                     {% for col in result %}
                     <td>
-                        {{ col }}
+                      {{ col }}
                     </td>
                     {% endfor %}
                   </tr>
@@ -110,17 +110,30 @@
 
 
 
-{% endblock content %}
+  {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}
 
-<script>
+  <script>
     $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
+      // Javascript method's body can be found in assets/js/demos.js
+      demo.initDashboardPageCharts();
 
     });
-</script>
 
-{% endblock javascripts %}
+    function enableSubmit() {
+      let inputs = document.getElementsByClassName("Input");
+      let btn = document.getElementsByName("submitBtn")[0];
+      let isValid = true;
+
+      for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].value == 0) {
+          isValid = false;
+        }
+      }
+      btn.disabled = !isValid;
+    }
+  </script>
+
+  {% endblock javascripts %}
