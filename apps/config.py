@@ -15,8 +15,8 @@ class Config(object):
     
     # This will create a file in <app> FOLDER
     #SQLALCHEMY_DATABASE_URI = 'postgresql:///' + os.path.join(basedir, 'data.sql')
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:chua@localhost:5432/postgres'
-    #SQLALCHEMY_DATABASE_URI = "os.environ['DATABASE_URL']"
+    #SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:chua@localhost:5432/postgres'
+    SQLALCHEMY_DATABASE_URI = "os.environ['DATABASE_URL']"
     SQLALCHEMY_TRACK_MODIFICATIONS = False 
 
 
