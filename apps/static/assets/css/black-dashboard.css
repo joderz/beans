@@ -13327,3 +13327,13 @@ Copyright (c) 2015 Daniel Eden
     padding-right: 0; }
 
 /*# sourceMappingURL=black-dashboard.css.map */
+
+.Input {
+  width: 180px;
+  height: 30px;
+  border: 2px solid #999;
+  font-size: 16px;
+  color: #ced4da;
+  background-color: #32325d;
+  border-radius: 5px;
+}
