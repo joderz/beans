@@ -57,10 +57,10 @@
                   <option value="{{ i }}">{{ data9[i] }}</option>
                   {% endfor %}
                 </select>
-
-
+                
                 <br></br>
-                <button name="submitBtn" type="submit" class="pred-btn" disabled="true"> Submit </button>
+                <button name="submitBtn" value="submitBtn" type="submit" class="pred-btn" disabled="true">Show Table</button>
+                <button name="csv" value="csv" type="submit" class="pred-btn" disabled="true"> Download CSV </button>
               </form>
             </div>
           </div>
@@ -79,7 +79,7 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table tablesorter " id="">
+              <table class="table tablesorter" id="exportMe">
                 <thead class=" text-primary">
                   <tr>
                     {% for colname in results.keys() %}
@@ -125,6 +125,7 @@
     function enableSubmit() {
       let inputs = document.getElementsByClassName("Input");
       let btn = document.getElementsByName("submitBtn")[0];
+      let btn2 = document.getElementsByName("csv")[0];
       let isValid = true;
 
       for (var i = 0; i < inputs.length; i++) {
@@ -133,6 +134,7 @@
         }
       }
       btn.disabled = !isValid;
+      btn2.disabled = !isValid;
     }
   </script>
 

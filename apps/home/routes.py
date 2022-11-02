@@ -3,9 +3,11 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+import csv
+import io
 from models import Modelz
 from apps.home import blueprint
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, make_response, Response
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 
@@ -27,21 +29,16 @@ def index():
     data6 = ['Accommodates', 'all', '2 or more', '4 or more']
     data7 = ['Beds', 'all', '2 or more', '4 or more']
     data8 = ['Bathrooms', 'all', '2 or more', '4 or more']
-    data9 = ['Rating', 'all', '2 or more', '4 or more']
-    # data2=[{'option2': 'Month'},{'option2': '1'}, {'option2': '2'},{'option2': '3'}, {'option2': '4'},{'option2': '5'}, {'option2': '6'},{'option2': '7'}, {'option2': '8'},{'option2': '9'}, {'option2': '10'},{'option2': '11'}, {'option2': '12'}]
-    # data3=[{'option3': 'Year'}, {'option3': '2022'}, {'option3': '2021'},{'option3': '2020'}]
-    # data4=[{'option4': 'Price'}, {'option4': 'all'},{'option4': '>=500'}, {'option4': '>=1000'}]
-    # data5=[{'option5': 'Duration'}, {'option5': 'all'}, {'option5': '2 or more'},{'option5': '4 or more'}]
-    # data6=[{'option6': 'Accommodates'}, {'option6': 'all'}, {'option6': '2 or more'},{'option6': '4 or more'}]
-    # data7=[{'option7': 'Beds'}, {'option7': 'all'}, {'option7': '2 or more'},{'option7': '4 or more'}]
-    # data8=[{'option8': 'Bathrooms'}, {'option8': 'all'}, {'option8': '2 or more'},{'option8': '4 or more'}]
-    # data9=[{'option9': 'rating'}, {'option9': 'all'}, {'option9': '2 or more'},{'option9': '4 or more'}]
+    data9 = ['Rating', 'all', '5 or more', '7 or more']
 
-    date_1 = Modelz.date_1()
+    state = {"data2": 0, "data3": 0, "data4": 0, "data5": 0,
+             "data6": 0, "data7": 0, "data8": 0, "data9": 0}
 
-    # query results
     if request.method == 'GET':
-        user = {}
+        results = {}
+        return render_template('home/index.html', segment='index', results=results,
+                               data2=data2, data3=data3, data4=data4, data5=data5, data6=data6, data7=data7, data8=data8, data9=data9,
+                               l2=len(data2), l3=len(data3), l4=len(data4), l5=len(data5), l6=len(data6), l7=len(data7), l8=len(data8), l9=len(data9), state=state)
     else:
         output_raw = list(request.form.values())
         temp_dict = {k: v for k, v in enumerate(
@@ -58,15 +55,57 @@ def index():
                 output[i] = '4'
             elif output[i] == '2 or more':
                 output[i] = '2'
+            elif output[i] == '5 or more':
+                output[i] = '5'
+            elif output[i] == '7 or more':
+                output[i] = '7'
             elif output[i] == 'all':
                 output[i] = '0'
 
-        user = Modelz.overview({"month": output[0], "year": output[1], "price": output[2], "duration": output[3],
-                               "accommodates": output[4], "beds": output[5], "bathrooms": output[6], "rating": output[7]})
+        results = Modelz.overview({"month": output[0], "year": output[1], "price": output[2], "duration": output[3],
+                                   "accommodates": output[4], "beds": output[5], "bathrooms": output[6], "rating": output[7]})
 
-    return render_template('home/index.html', segment='index', results=user, date_1=date_1,
-                           data2=data2, data3=data3, data4=data4, data5=data5, data6=data6, data7=data7, data8=data8, data9=data9,
-                           l2=len(data2), l3=len(data3), l4=len(data4), l5=len(data5), l6=len(data6), l7=len(data7), l8=len(data8), l9=len(data9))
+        if 'submitBtn' in request.form:
+            thing = request.form.get('comp_select9', '')
+
+            for i in range(len(data9)):
+                if data9[i] == thing:
+                    state['data9'] = i
+
+            return render_template('home/index.html', segment='index', results=results,
+                                   data2=data2, data3=data3, data4=data4, data5=data5, data6=data6, data7=data7, data8=data8, data9=data9,
+                                   l2=len(data2), l3=len(data3), l4=len(data4), l5=len(data5), l6=len(data6), l7=len(data7), l8=len(data8), l9=len(data9), state=state)
+        elif 'csv' in request.form:
+            return download_report(results)
+
+
+@blueprint.route('/download')
+def download_report(results):
+    #results = request.form['results']
+    #results = request.args.get('results', None)
+
+    #results = []
+    #results = result_global
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    line = []
+    for item in results.keys():
+        line.append(str(item))
+    writer.writerow(line)
+
+    #line = ['Emp Id, Emp First Name, Emp Last Name, Emp Designation']
+    # writer.writerow(line)
+
+    for row in results:
+        line = []
+        for i in row:
+            line.append(str(i))
+        writer.writerow(line)
+
+    output.seek(0)
+
+    return Response(output, mimetype="text/csv", headers={"Content-Disposition": "attachment;filename=results.csv"})
 
 
 @blueprint.route('/membership', methods=['GET', 'POST'])
@@ -77,6 +116,8 @@ def membership():
     # query results
     if request.method == 'GET':
         results = {}
+        return render_template('home/membership.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2))
     else:
         output = data2[int(list(request.form.values())[0])]
         if output == "Diamond":
@@ -85,8 +126,11 @@ def membership():
             results = Modelz.MemberGold()
         elif output == "Silver":
             results = Modelz.MemberSilver()
-    return render_template('home/membership.html', segment='index', results=results,
-                           data2=data2, l2=len(data2))
+        if 'submitBtn' in request.form:
+            return render_template('home/membership.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2))
+        elif 'csv' in request.form:
+            return download_report(results)
 
 
 @blueprint.route('/aggregate', methods=['GET', 'POST'])
@@ -97,6 +141,8 @@ def aggregate():
     # query results
     if request.method == 'GET':
         results = {}
+        return render_template('home/aggregate.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2))
     else:
         output = data2[int(list(request.form.values())[0])]
         if output == data2[1]:
@@ -107,20 +153,35 @@ def aggregate():
             results = Modelz.date_3()
         elif output == data2[4]:
             results = Modelz.date_4()
-    return render_template('home/aggregate.html', segment='index', results=results,
-                           data2=data2, l2=len(data2))
+        if 'submitBtn' in request.form:
+            return render_template('home/aggregate.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2))
+        elif 'csv' in request.form:
+            return download_report(results)
+
 
 @blueprint.route('/property', methods=['GET', 'POST'])
 @login_required
 def property():
     # drop down data
     data2 = ['Selection',  'Avg Rating by Property Type', 'Avg Rating by Room Type',  'Avg Rating by Accommodates Type',  'Avg Rating by Location',
-                            'Total Revenue of listings - 2022', 'Total Revenue of listings - 2021',  'Total Revenue of listings - 2020',
-                              'Avg No. of Guests by Property Type',  'Avg No. of Guests by Room Type', 'Avg No. of Guests by Location',
-                              'No. of each property type per city', 'No. of each room type per city']
+             'Total Revenue of listings - 2022', 'Total Revenue of listings - 2021',  'Total Revenue of listings - 2020',
+             'Avg No. of Guests by Property Type',  'Avg No. of Guests by Room Type', 'Avg No. of Guests by Location',
+             'No. of each property type per city', 'No. of each room type per city']
+    data21 = ['Selection']
+    data22 = ['Avg Rating by Property Type', 'Avg Rating by Room Type',
+              'Avg Rating by Accommodates Type',  'Avg Rating by Location']
+    data23 = ['Total Revenue of listings - 2022',
+              'Total Revenue of listings - 2021',  'Total Revenue of listings - 2020']
+    data24 = ['Avg No. of Guests by Property Type',
+              'Avg No. of Guests by Room Type', 'Avg No. of Guests by Location']
+    data25 = ['No. of each property type per city',
+              'No. of each room type per city']
     # query results
     if request.method == 'GET':
         results = {}
+        return render_template('home/property.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2), data21=data21, data22=data22, data23=data23, data24=data24, data25=data25)
     else:
         output = data2[int(list(request.form.values())[0])]
         if output == data2[1]:
@@ -147,17 +208,24 @@ def property():
             results = Modelz.property_41()
         elif output == data2[12]:
             results = Modelz.property_42()
-    return render_template('home/property.html', segment='index', results=results,
-                           data2=data2, l2=len(data2))
+        if 'submitBtn' in request.form:
+            return render_template('home/property.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2), data21=data21, data22=data22, data23=data23, data24=data24, data25=data25)
+        elif 'csv' in request.form:
+            return download_report(results)
+
 
 @blueprint.route('/hosts', methods=['GET', 'POST'])
 @login_required
 def hosts():
     # drop down data
-    data2 = ['Selection',  'Best Rating Host (Full Total Rating Scores)', 'Review King (Hosts with most reviews)',  'Unqualified Host (< 5 score in any review section)',  'Total Listings Per Host','Host listings per location','Total Revenue for Each Host']
+    data2 = ['Selection',  'Best Rating Host (Full Total Rating Scores)', 'Review King (Hosts with most reviews)',
+             'Unqualified Host (< 5 score in any review section)',  'Total Listings Per Host', 'Host listings per location', 'Total Revenue for Each Host']
     # query results
     if request.method == 'GET':
         results = {}
+        return render_template('home/hosts.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2))
     else:
         output = data2[int(list(request.form.values())[0])]
         if output == "Best Rating Host (Full Total Rating Scores)":
@@ -172,8 +240,17 @@ def hosts():
             results = Modelz.host_5()
         elif output == "Total Revenue for Each Host":
             results = Modelz.host_6()
-    return render_template('home/hosts.html', segment='index', results=results,
-                           data2=data2, l2=len(data2))
+        if 'submitBtn' in request.form:
+            return render_template('home/hosts.html', segment='index', results=results,
+                                   data2=data2, l2=len(data2))
+        elif 'csv' in request.form:
+            return download_report(results)
+
+
+@blueprint.route('/get_csv')
+def get_csv():
+    return send_csv([{"id": 42, "foo": "bar"}, {"id": 91, "foo": "baz"}],
+                    "test.csv", ["id", "foo"])
 
 
 @ blueprint.route('/<template>')
