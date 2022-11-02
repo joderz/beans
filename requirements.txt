@@ -16,3 +16,4 @@ Flask-Dance==5.1.0
 blinker==1.4
 pyOpenSSL
 # flask_mysqldb
+psycopg2-binary==2.9.4
