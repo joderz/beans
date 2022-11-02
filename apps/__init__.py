@@ -44,7 +44,7 @@ def create_app(config):
     app.config.from_object(config)
     register_extensions(app)
 
-    app.register_blueprint(github_blueprint, url_prefix="/login")
+    app.register_blueprint(github_blueprint, url_prefix="/overview")
     
     register_blueprints(app)
     configure_database(app)

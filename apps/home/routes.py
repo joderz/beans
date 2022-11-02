@@ -8,7 +8,6 @@ import io
 from models import Modelz
 from apps.home import blueprint
 from flask import render_template, request, jsonify, make_response, Response
-from flask_login import login_required
 from jinja2 import TemplateNotFound
 
 import sys
@@ -18,7 +17,6 @@ Modelz = Modelz()
 
 
 @blueprint.route('/overview', methods=['GET', 'POST'])
-@login_required
 def index():
     # drop down data
     data2 = ['Month', '1', '2', '3', '4', '5',
@@ -109,7 +107,6 @@ def download_report(results):
 
 
 @blueprint.route('/membership', methods=['GET', 'POST'])
-@login_required
 def membership():
     # drop down data
     data2 = ['Membership Level',  'Diamond', 'Gold',  'Silver']
@@ -134,7 +131,6 @@ def membership():
 
 
 @blueprint.route('/aggregate', methods=['GET', 'POST'])
-@login_required
 def aggregate():
     # drop down data
     data2 = ['Group By',  'Year', 'Month',  'Day',  'Weekend']
@@ -161,7 +157,6 @@ def aggregate():
 
 
 @blueprint.route('/property', methods=['GET', 'POST'])
-@login_required
 def property():
     # drop down data
     data2 = ['Selection',  'Avg Rating by Property Type', 'Avg Rating by Room Type',  'Avg Rating by Accommodates Type',  'Avg Rating by Location',
@@ -216,7 +211,6 @@ def property():
 
 
 @blueprint.route('/hosts', methods=['GET', 'POST'])
-@login_required
 def hosts():
     # drop down data
     data2 = ['Selection',  'Best Rating Host (Full Total Rating Scores)', 'Review King (Hosts with most reviews)',
@@ -247,14 +241,8 @@ def hosts():
             return download_report(results)
 
 
-@blueprint.route('/get_csv')
-def get_csv():
-    return send_csv([{"id": 42, "foo": "bar"}, {"id": 91, "foo": "baz"}],
-                    "test.csv", ["id", "foo"])
-
 
 @ blueprint.route('/<template>')
-@ login_required
 def route_template(template):
     try:
 
