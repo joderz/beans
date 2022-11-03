@@ -19,7 +19,7 @@ from sqlalchemy import text
 class Modelz:
     def __init__(self):
         #self.engine = create_engine('postgresql://postgres:chua@localhost:5432/postgres', echo=True)
-        self.engine = create_engine(os.environ['DATABASE_URL'])
+        self.engine = create_engine(os.environ['DB_URL'])
 
     def executeRawSql(self, statement, params={}):
         out = None
