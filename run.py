@@ -33,7 +33,7 @@ from sqlalchemy import text
 # or from sqlalchemy.sql import text
 
 #engine = create_engine('postgresql://postgres:chua@localhost:5432/postgres', echo=True)
-engine = create_engine(os.environ['DATABASE_URL'])
+engine = create_engine(os.environ['DB_URL'])
 #import insert table set 
 with engine.connect() as con:
     with open("apps/data.sql") as file:
