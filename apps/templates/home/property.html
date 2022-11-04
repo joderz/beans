@@ -12,20 +12,41 @@
     <div class="col-12">
       <div class="card card-chart">
         <div class="card-header ">
-            <h2 class="card-title"> Property Data: </h2>
-            <br>
-            <div class="col-sm">
-              <form action="" method="post">
-                <select name="comp_select2" class="Input" onchange="enableSubmit()">
-                  {% for i in range(0, l2) %}
-                  <option value="{{ i }}">{{ data2[i] }}</option>
+          <h2 class="card-title"> Property Data: </h2>
+          <br>
+          <div class="col-sm">
+            <form action="" method="post">
+              <select name="comp_select2" class="Input" onchange="enableSubmit()">
+                {% for i in range(0, l21) %}
+                <option value="{{ i }}">{{ data21[i] }}</option>
+                {% endfor %}
+                </optgroup>
+                <optgroup label="Average Rating">
+                  {% for i in range(0, l22) %}
+                  <option value="{{ i }}">{{ data22[i] }}</option>
                   {% endfor %}
-                </select>
-                <br></br>
-                <button name="submitBtn" value="submitBtn" type="submit" class="pred-btn" disabled="true"> Show Table </button>
-                <button name="csv" value="csv" type="submit" class="pred-btn" disabled="true"> Download CSV </button>
-                <br></br>
-              </form>
+                </optgroup>
+                <optgroup label="Total Revenue of Listings">
+                  {% for i in range(0, l23) %}
+                  <option value="{{ i }}">{{ data23[i] }}</option>
+                  {% endfor %}
+                </optgroup>
+                <optgroup label="Average Number of Guests">
+                  {% for i in range(0, l24) %}
+                  <option value="{{ i }}">{{ data24[i] }}</option>
+                  {% endfor %}
+                </optgroup>
+                <optgroup label="Number of Each">
+                  {% for i in range(0, l25) %}
+                  <option value="{{ i }}">{{ data25[i] }}</option>
+                  {% endfor %}
+              </select>
+              <br></br>
+              <button name="submitBtn" value="submitBtn" type="submit" class="pred-btn" disabled="true"> Show Table
+              </button>
+              <button name="csv" value="csv" type="submit" class="pred-btn" disabled="true"> Download CSV </button>
+              <br></br>
+            </form>
           </div>
         </div>
       </div>
@@ -38,7 +59,8 @@
         <div class="card ">
           <div class="card-header">
             <h4 class="card-title"> Result Table </h4>
-            <p class="category"> Results show property which have fulfilled different criteria, as well as aggregate queries </p>
+            <p class="category"> Results show property which have fulfilled different criteria, as well as aggregate
+              queries </p>
           </div>
           <div class="card-body">
             <div class="table-responsive">

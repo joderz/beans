@@ -164,19 +164,21 @@ def property():
              'Avg No. of Guests by Property Type',  'Avg No. of Guests by Room Type', 'Avg No. of Guests by Location',
              'No. of each property type per city', 'No. of each room type per city']
     data21 = ['Selection']
-    data22 = ['Avg Rating by Property Type', 'Avg Rating by Room Type',
-              'Avg Rating by Accommodates Type',  'Avg Rating by Location']
-    data23 = ['Total Revenue of listings - 2022',
-              'Total Revenue of listings - 2021',  'Total Revenue of listings - 2020']
-    data24 = ['Avg No. of Guests by Property Type',
-              'Avg No. of Guests by Room Type', 'Avg No. of Guests by Location']
-    data25 = ['No. of each property type per city',
-              'No. of each room type per city']
+    data22 = ['By Property Type', 'By Room Type',
+              'By Accommodates Type',  'By Location']
+    data23 = ['For Year 2022',
+              'For Year 2021',  'For Year 2020']
+    data24 = ['By Property Type',
+              'By Room Type', 'By Location']
+    data25 = ['Property type per city',
+              'Room type per city']
     # query results
     if request.method == 'GET':
         results = {}
         return render_template('home/property.html', segment='index', results=results,
-                                   data2=data2, l2=len(data2), data21=data21, data22=data22, data23=data23, data24=data24, data25=data25)
+                                   data2=data2, l2=len(data2), 
+                                   data21=data21, data22=data22, data23=data23, data24=data24, data25=data25,
+                                   l21=len(data21),l22=len(data22),l23=len(data23),l24=len(data24),l25=len(data25))
     else:
         output = data2[int(list(request.form.values())[0])]
         if output == data2[1]:
