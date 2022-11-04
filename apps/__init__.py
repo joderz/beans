@@ -39,7 +39,7 @@ from apps.authentication.oauth import github_blueprint
 def create_app(config):
     app = Flask(__name__)
     #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:chua@localhost:5432/postgres"
-    app.config['SQLALCHEMY_DATABASE_URI'] = "os.environ['DB_URL']"
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URL']
 
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
