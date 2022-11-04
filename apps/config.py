@@ -16,7 +16,7 @@ class Config(object):
     # This will create a file in <app> FOLDER
     #SQLALCHEMY_DATABASE_URI = 'postgresql:///' + os.path.join(basedir, 'data.sql')
     #SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:chua@localhost:5432/postgres'
-    SQLALCHEMY_DATABASE_URI = "os.environ['DB_URL']"
+    SQLALCHEMY_DATABASE_URI = os.environ['DB_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False 
 
 
@@ -41,17 +41,16 @@ class ProductionConfig(Config):
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 3600
 
-"""
+
     # PostgreSQL database
-    SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
-        os.getenv('DB_ENGINE'   , 'mysql'),
-        os.getenv('DB_USERNAME' , 'appseed_db_usr'),
-        os.getenv('DB_PASS'     , 'pass'),
-        os.getenv('DB_HOST'     , 'localhost'),
-        os.getenv('DB_PORT'     , 3306),
-        os.getenv('DB_NAME'     , 'appseed_db')
-    )
-"""
+    #SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
+    #   os.getenv('DB_ENGINE'   , 'mysql'),
+    #   os.getenv('DB_USERNAME' , 'appseed_db_usr'),
+    #   os.getenv('DB_PASS'     , 'pass'),
+    #   os.getenv('DB_HOST'     , 'localhost'),
+    #   os.getenv('DB_PORT'     , 3306),
+    #   os.getenv('DB_NAME'     , 'appseed_db')
+    #)
 
 class DebugConfig(Config):
     DEBUG = True
