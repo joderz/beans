@@ -18,27 +18,27 @@
             <form action="" method="post">
               <select name="comp_select2" class="Input" onchange="enableSubmit()">
                 {% for i in range(0, l21) %}
-                <option value="{{ i }}">{{ data21[i] }}</option>
+                <option value="select">{{ data21[i] }}</option>
                 {% endfor %}
                 </optgroup>
                 <optgroup label="Average Rating">
                   {% for i in range(0, l22) %}
-                  <option value="{{ i }}">{{ data22[i] }}</option>
+                  <option value="{{ i+1 }}" {% if thing==i+1 %} selected {% endif %}>{{ data22[i] }}</option>
                   {% endfor %}
                 </optgroup>
                 <optgroup label="Total Revenue of Listings">
                   {% for i in range(0, l23) %}
-                  <option value="{{ i }}">{{ data23[i] }}</option>
+                  <option value="{{ i+5 }}" {% if thing==i+5 %} selected {% endif %}>{{ data23[i] }}</option>
                   {% endfor %}
                 </optgroup>
                 <optgroup label="Average Number of Guests">
                   {% for i in range(0, l24) %}
-                  <option value="{{ i }}">{{ data24[i] }}</option>
+                  <option value="{{ i+8 }}" {% if thing==i+8 %} selected {% endif %}>{{ data24[i] }}</option>
                   {% endfor %}
                 </optgroup>
                 <optgroup label="Number of Each">
                   {% for i in range(0, l25) %}
-                  <option value="{{ i }}">{{ data25[i] }}</option>
+                  <option value="{{ i+11 }}" {% if thing==i+11 %} selected {% endif %}>{{ data25[i] }}</option>
                   {% endfor %}
               </select>
               <br></br>
@@ -115,14 +115,23 @@
       let isValid = true;
 
       for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == 0) {
+        if (inputs[i].value == 'select') {
           isValid = false;
+          btn.disabled = !isValid;
+          btn2.disabled = !isValid;   // Disable the button.
+          return false;
         }
+        else {
+          btn.disabled = false;
+          btn2.disabled = false;
+        }
+
       }
-      btn.disabled = !isValid;
-      btn2.disabled = !isValid;
 
     }
+
+    window.onload = enableSubmit()
   </script>
+
 
   {% endblock javascripts %}

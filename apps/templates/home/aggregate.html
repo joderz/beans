@@ -18,7 +18,7 @@
               <form action="" method="post">
                 <select name="comp_select2" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l2) %}
-                  <option value="{{ i }}">{{ data2[i] }}</option>
+                  <option value="{{ i }}" {% if thing == i %} selected {% endif %}>{{ data2[i] }}</option>
                   {% endfor %}
                 </select>
                 <br></br>
@@ -86,17 +86,23 @@
       let inputs = document.getElementsByClassName("Input");
       let btn = document.getElementsByName("submitBtn")[0];
       let btn2 = document.getElementsByName("csv")[0];
-      let isValid = true;
 
       for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == 0) {
-          isValid = false;
+        if (inputs[i].value == "0") {
+          btn.disabled = true;
+          btn2.disabled = true;   // Disable the button.
+          return false;
         }
+        else {
+          btn.disabled = false;
+          btn2.disabled = false;
+        }
+
       }
-      btn.disabled = !isValid;
-      btn2.disabled = !isValid;
 
     }
+
+    window.onload = enableSubmit()
   </script>
 
   {% endblock javascripts %}

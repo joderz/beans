@@ -18,42 +18,42 @@
               <form action="" method="post">
                 <select name="comp_select2" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l2) %}
-                  <option value="{{ i }}">{{ data2[i] }}</option>
+                  <option value="{{ i }}" {% if thing[0] == i %} selected {% endif %}>{{ data2[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select3" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l3) %}
-                  <option value="{{ i }}">{{ data3[i] }}</option>
+                  <option value="{{ i }}" {% if thing[1] == i %} selected {% endif %}>{{ data3[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select4" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l4) %}
-                  <option value="{{ i }}">{{ data4[i] }}</option>
+                  <option value="{{ i }}" {% if thing[2] == i %} selected {% endif %}>{{ data4[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select5" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l5) %}
-                  <option value="{{ i }}">{{ data5[i] }}</option>
+                  <option value="{{ i }}" {% if thing[3] == i %} selected {% endif %}>{{ data5[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select6" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l6) %}
-                  <option value="{{ i }}">{{ data6[i] }}</option>
+                  <option value="{{ i }}" {% if thing[4] == i %} selected {% endif %}>{{ data6[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select7" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l7) %}
-                  <option value="{{ i }}">{{ data7[i] }}</option>
+                  <option value="{{ i }}" {% if thing[5] == i %} selected {% endif %}>{{ data7[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select8" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l8) %}
-                  <option value="{{ i }}">{{ data8[i] }}</option>
+                  <option value="{{ i }}" {% if thing[6] == i %} selected {% endif %}>{{ data8[i] }}</option>
                   {% endfor %}
                 </select>
                 <select name="comp_select9" class="Input" onchange="enableSubmit()">
                   {% for i in range(0, l9) %}
-                  <option value="{{ i }}">{{ data9[i] }}</option>
+                  <option value="{{ i }}" {% if thing[7] == i %} selected {% endif %}>{{ data9[i] }}</option>
                   {% endfor %}
                 </select>
                 
@@ -120,21 +120,27 @@
       demo.initDashboardPageCharts();
 
     });
-
     function enableSubmit() {
       let inputs = document.getElementsByClassName("Input");
       let btn = document.getElementsByName("submitBtn")[0];
       let btn2 = document.getElementsByName("csv")[0];
-      let isValid = true;
 
       for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == 0) {
-          isValid = false;
+        if (inputs[i].value == "0") {
+          btn.disabled = true;
+          btn2.disabled = true;   // Disable the button.
+          return false;
         }
+        else {
+          btn.disabled = false;
+          btn2.disabled = false;
+        }
+
       }
-      btn.disabled = !isValid;
-      btn2.disabled = !isValid;
+
     }
+
+    window.onload = enableSubmit()
   </script>
 
   {% endblock javascripts %}
