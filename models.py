@@ -45,7 +45,7 @@ class Modelz:
                                     from reservation r, date d
                                     where r.date_id=d.id
                                     group by d.day_of_week
-                                    order by sum(r.duration*r.price_per_day) desc;
+                                    order by count(r.reservation_id) desc;
                                     """)
 
     def date_2(self):
@@ -54,7 +54,7 @@ class Modelz:
                                     from reservation r, date d
                                     where r.date_id=d.id
                                     group by d.month
-                                    having count(*)<80;
+                                    order by count(r.reservation_id) desc;
                                     """)
     def date_4(self):
         return self.executeRawSql("""
@@ -63,7 +63,6 @@ class Modelz:
                                     where r.date_id=d.id
                                     group by d.is_weekend
                                     order by count(r.reservation_id) desc;
-
                                     """)
     def MemberSilver(self):
         return self.executeRawSql("""SELECT DISTINCT c.customer_name, c.email, c.phone, c.gender
